@@ -14,7 +14,7 @@ namespace SqlDao
     {
         public string connectionString = string.Empty;
 
-        public abstract Boolean IsConnected();
+        public abstract Boolean IsConnecting();
         public abstract Boolean IsOpened();
 
         /// <summary>

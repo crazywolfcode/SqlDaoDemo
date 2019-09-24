@@ -448,7 +448,7 @@ namespace SqlDao
                     throw new Exception(SqlBuilder.buildSqlErrorMessage);
                 }
                 string condition = SqlBuilder.splitChar + "id" + SqlBuilder.splitChar + "=" + SqlBuilder.valueSplitChar + tempObj.ToString() + SqlBuilder.valueSplitChar;
-                string sql = SqlBuilder.BuildSelectSql(SqlBuilder.GetTableName(obj), null, condition);
+                string sql = SqlBuilder.GetSelectSql(SqlBuilder.GetTableName(obj), null, condition);
                 DataTable dt = this.ExcuteDataTable(sql);
                 if (dt != null && dt.Rows.Count > 0)
                 {
@@ -480,14 +480,14 @@ namespace SqlDao
             return ExcuteDataTable(sql);
         }
 
-        public override bool IsConnected()
+        public override bool IsConnecting()
         {
-            return connection.State == ConnectionState.Connecting;
+            return Connection.State == ConnectionState.Connecting;
         }
 
         public override bool IsOpened()
         {
-            return connection.State == ConnectionState.Open;
+            return Connection.State == ConnectionState.Open;
         }
     }
 }

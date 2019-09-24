@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -11,7 +12,7 @@ namespace SqlDao
 {
 
     public class MySqlHelper : DbHelper
-    {    
+    {
         public MySqlConnection connection;
         // 
         //异常:
@@ -37,7 +38,7 @@ namespace SqlDao
                         }
                         catch (Exception e)
                         {
-                            throw new Exception("Mysql 数据打开失败！:"+e.Message);
+                            throw new Exception("Mysql 数据打开失败！:" + e.Message);
                         }
                     }
                     return connection;
@@ -52,13 +53,13 @@ namespace SqlDao
                         }
                         catch (Exception e)
                         {
-                            throw new Exception("Mysql 数据打开失败！:"+e.Message);
+                            throw new Exception("Mysql 数据打开失败！:" + e.Message);
                         }
                     }
                     return connection;
                 }
             }
-            set { connection = value; }
+
         }
 
         /// <summary>
@@ -82,7 +83,8 @@ namespace SqlDao
         /// <returns></returns>
         public override bool CheckConn(string connstring = null)
         {
-            if (String.IsNullOrEmpty(connstring)) {
+            if (String.IsNullOrEmpty(connstring))
+            {
                 connstring = connectionString;
             }
             using (MySqlConnection conn = new MySqlConnection(connstring))
@@ -139,7 +141,7 @@ namespace SqlDao
         /// </summary>
         /// <param name="dbname"></param>
         /// <returns></returns>
-        public  List<DbSchema> getAllTableSchema8(string dbname)
+        public List<DbSchema> getAllTableSchema8(string dbname)
         {
             List<DbSchema> dss = new List<DbSchema>();
             string sql = $"SELECT TABLE_NAME as tableName,TABLE_COMMENT as tableComment,CREATE_TIME as createTime,UPDATE_TIME as updateTime ,TABLE_ROWS as tableRows,DATA_LENGTH as dataLength   from information_schema.tables where table_schema='{dbname}'  and (table_type='base table' or table_type='BASE TABLE');";
@@ -168,7 +170,7 @@ namespace SqlDao
             }
             else
             {
-                return false; 
+                return false;
             }
         }
 
@@ -191,7 +193,7 @@ namespace SqlDao
             return ts;
         }
 
-        public  List<MysqlTableColumnSchema> GetTableColumnSchema(string dbname, string tablename)
+        public List<MysqlTableColumnSchema> GetTableColumnSchema(string dbname, string tablename)
         {
             List<MysqlTableColumnSchema> list = null;
             if (string.IsNullOrEmpty(dbname) && string.IsNullOrEmpty(tablename))
@@ -232,7 +234,7 @@ namespace SqlDao
         /// <returns>DataTable</returns>
         public override List<T> Select<T>(string sql)
         {
-          DataTable  dt = ExcuteDataTable(sql);
+            DataTable dt = ExcuteDataTable(sql);
             Type type = typeof(T);
             List<T> list = new List<T>();
             foreach (DataRow row in dt.Rows)
@@ -241,14 +243,15 @@ namespace SqlDao
                 T entity = new T();
                 foreach (PropertyInfo p in pArray)
                 {
-                    if (row.Table.Columns.Contains(StringHelper.camelCaseToDBnameing(p.Name))) {
+                    if (row.Table.Columns.Contains(StringHelper.camelCaseToDBnameing(p.Name)))
+                    {
                         if (row[StringHelper.camelCaseToDBnameing(p.Name)] is DBNull)
                         {
                             p.SetValue(entity, null, null);
                             continue;
-                        }                  
-                        p.SetValue(entity, row[StringHelper.camelCaseToDBnameing(p.Name)], null);                       
-                    }                   
+                        }
+                        p.SetValue(entity, row[StringHelper.camelCaseToDBnameing(p.Name)], null);
+                    }
                 }
                 list.Add(entity);
             }
@@ -291,18 +294,11 @@ namespace SqlDao
                 using (MySqlDataAdapter adapter = new MySqlDataAdapter(command))
                 {
                     adapter.Fill(dt);
-                }                
+                }
                 return dt;
             }
         }
-        public int ExcuteNoQuery(string sql)
-        {
-            using (MySqlCommand command = new MySqlCommand(sql, Connection))
-            {
-                return command.ExecuteNonQuery();
-            }
-        }
-
+    
         #region 增删改  
 
         /// <summary>  
@@ -314,7 +310,7 @@ namespace SqlDao
         public int ExecuteNonQuery(string sql, MySqlParameter[] parametes)
         {
             int affectedRows = 0;
-            System.Data.Common.DbTransaction transation = Connection.BeginTransaction();
+            DbTransaction transation = Connection.BeginTransaction();            
             try
             {
                 using (MySqlCommand command = new MySqlCommand(sql, Connection))
@@ -327,13 +323,13 @@ namespace SqlDao
                     transation.Commit();
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 transation.Rollback();
-                throw;
+                throw e;
             }
             finally
-            {
+            {               
                 Connection.Close();
             }
             return affectedRows;
@@ -346,11 +342,10 @@ namespace SqlDao
         public override int TransactionExecute(string[] sqls)
         {
             int affectedRows = 0;
-            System.Data.Common.DbTransaction transation = Connection.BeginTransaction();
+            DbTransaction transation = Connection.BeginTransaction();
             try
             {
-                using (MySqlCommand command = new MySqlCommand())
-                {
+                using (MySqlCommand command = new MySqlCommand()) {
                     command.Connection = Connection;
                     for (int i = 0; i < sqls.Length; i++)
                     {
@@ -358,7 +353,7 @@ namespace SqlDao
                         affectedRows = command.ExecuteNonQuery();
                     }
                     transation.Commit();
-                }
+                }                
             }
             catch (Exception)
             {
@@ -366,7 +361,7 @@ namespace SqlDao
                 throw;
             }
             finally
-            {
+            {              
                 Connection.Close();
             }
             return affectedRows;
@@ -378,7 +373,7 @@ namespace SqlDao
         /// <returns>影响行数</returns>
         public override int Delete(string sql)
         {
-            return ExecuteNonQuery(sql, null);
+            return ExecuteNonQuery(sql,null);
         }
         /// <summary>
         /// 删除对像 ，支持软件删除
@@ -387,7 +382,7 @@ namespace SqlDao
         /// <param name="obj">对像</param>
         /// <param name="isTrueDelete">是否真的删除 默认软删除</param>
         /// <returns>影响行数</returns>
-        public override int Delete<T>(T obj, Boolean isTrueDelete = false)
+        public override int Delete<T>(T obj, Boolean isTrueDelete = true)
         {
             string deleteSql = string.Empty;
             deleteSql = SqlBuilder.GetDeleteSql(obj, isTrueDelete);
@@ -458,7 +453,7 @@ namespace SqlDao
         {
             foreach (var item in Connection.GetSchema().Rows)
             {
-               // ConsoleHelper.writeLine(item.ToString());
+                 Console.WriteLine(item.ToString());
             }
 
         }
@@ -470,7 +465,7 @@ namespace SqlDao
         /// <typeparam name="T"></typeparam>
         /// <param name="obj"></param>
         /// <returns></returns>
-      public  override  bool CheckExist<T>(T obj)
+        public override bool CheckExist<T>(T obj)
         {
             Type type = typeof(T);
             try
@@ -490,9 +485,9 @@ namespace SqlDao
                     throw new Exception(SqlBuilder.buildSqlErrorMessage);
                 }
                 string condition = SqlBuilder.splitChar + "id" + SqlBuilder.splitChar + "=" + SqlBuilder.valueSplitChar + tempObj.ToString() + SqlBuilder.valueSplitChar;
-                string sql = SqlBuilder.BuildSelectSql(SqlBuilder.GetTableName(obj), null, condition);
+                string sql = SqlBuilder.GetSelectSql(SqlBuilder.GetTableName(obj), null, condition);
                 DataTable dt = this.ExcuteDataTable(sql);
-                if (dt != null && dt.Rows.Count>0)
+                if (dt != null && dt.Rows.Count > 0)
                 {
                     return true;
                 }
@@ -508,18 +503,14 @@ namespace SqlDao
             //put code in up 
         }
 
-        public override bool IsConnected()
+        public override bool IsConnecting()
         {
-            return connection.State == ConnectionState.Connecting;
+            return Connection.State == ConnectionState.Connecting;
         }
         public override bool IsOpened()
         {
-            return connection.State == ConnectionState.Open;
+            return Connection.State == ConnectionState.Open;
         }
 
-        public override List<T> Select<T>(string sql, Dictionary<string, object> parametes = null)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

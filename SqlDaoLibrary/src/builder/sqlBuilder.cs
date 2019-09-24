@@ -24,7 +24,7 @@ namespace SqlDao
         //软删除的数据字段名
         public static readonly string softDeleteColumnName = "is_delete";
         //软删除的实体类属性名
-        public static readonly string softDeletePropertyName = "isDelete";
+        public static readonly string softDeletePropertyName = "IsDelete";
         public static readonly string deleteStatusTag = "1"; //删除状态标识
         public static readonly string nomalStatusTag = "0";//正常状态标识
         //软删除的条件
@@ -58,7 +58,7 @@ namespace SqlDao
         /// <param name="limit"></param>
         /// <param name="offset"></param>
         /// <returns></returns>
-        public string BuildSelectSqlWithSoftDeleteCondition(string tableName, string fields = null, string conditon = null, string groupBy = null, string having = null, string orderBy = null, int limit = 0, int offset = -1)
+        public string GetSelectSqlWithSoftDeleteCondition(string tableName, string fields = null, string conditon = null, string groupBy = null, string having = null, string orderBy = null, int limit = 0, int offset = -1)
         {
             string sql = string.Empty;
             if (string.IsNullOrEmpty(fields))
@@ -106,7 +106,7 @@ namespace SqlDao
         /// <typeparam name="T">类型</typeparam>
         /// <param name="obj">类型的对像</param>
         /// <returns>SQL语句</returns>
-        public static string BuildSelectSql(string tableName, string fields = null, string conditon = null, string groupBy = null, string having = null, string orderBy = null, int limit = 0, int offset = -1)
+        public static string GetSelectSql(string tableName, string fields = null, string conditon = null, string groupBy = null, string having = null, string orderBy = null, int limit = 0, int offset = -1)
         {
             string sql = string.Empty;
             if (string.IsNullOrEmpty(fields))
@@ -163,6 +163,10 @@ namespace SqlDao
                 if (o == null)
                 {
                     continue;
+                }
+                if ( property.Name == "id" || property.Name == "Id")
+                {
+                    if((int)o <= 0) { continue; }                        
                 }
                 if (property.GetType() == typeof(DateTime) && Convert.ToDateTime(obj) < Convert.ToDateTime("1753-01-01"))
                 {
@@ -263,7 +267,7 @@ namespace SqlDao
         /// <param name="obj">类型的对像</param>
         ///   /// <param name="isTrueDelete">是否真的删除 默认软删除</param>
         /// <returns>删除SQL语句</returns>
-        public static string GetDeleteSql<T>(T obj, bool isTrueDelete = false)
+        public static string GetDeleteSql<T>(T obj, bool isTrueDelete = true)
         {
             string condition = string.Empty;
             string id = string.Empty;
