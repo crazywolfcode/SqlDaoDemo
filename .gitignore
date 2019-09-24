@@ -10,3 +10,5 @@
 *.ide-shm
 *.ide-wal
 *.suo
+/packages
+/.vs/SqlDaoDemo/DesignTimeBuild
