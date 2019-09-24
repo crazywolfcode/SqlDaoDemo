@@ -10,7 +10,7 @@
     <Grid>
         <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
             <Button Content="test conn" Padding="2" FontSize="14" Margin="2" Click="Button_Click"/>
-            <Button Content="test sql build" x:Name="SqlBuild" Padding="2" FontSize="14" Margin="2" Click="SqlBuild_Click"  />
+            <Button Content="test sql build" x:Name="testSqlBuild" Padding="2" FontSize="14" Margin="2" Click="SqlBuild_Click"  />
             <Button Content="test sql insert" x:Name="insert" Padding="2" FontSize="14" Margin="2" Click="Insert_Click"  />
         </WrapPanel>
     </Grid>

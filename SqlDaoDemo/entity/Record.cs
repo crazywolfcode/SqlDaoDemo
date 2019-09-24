@@ -9,6 +9,7 @@ namespace SqlDaoDemo
    public class Record
     {
         public int Id { get; set; }
+        public int UserId { get; set; }
         public DateTime? UpdateTime { get; set; }
         public decimal? Money { get; set; }
         public string Remark { get; set; }

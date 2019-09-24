@@ -25,23 +25,28 @@ namespace SqlDaoDemo
         {
             InitializeComponent();
             App.MainSqlHelper.IsOpened();
-         
+
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             //TestInsert();
 
-           // TestDelete();
+            // TestDelete();
 
-           // TestSelect();
+            //TestSelect();
 
-           // TestUpdate();
+            // TestUpdate();
 
-            InsertOrUpdate();
+            // InsertOrUpdate();
+
+            TestTransation();
+
+            TestExist();
         }
 
-        private void TestInsert() {
+        private void TestInsert()
+        {
             //1
             String sql = "INSERT INTO `user` (`name`, `age`, `salary`) VALUES ( 'WolfCode', '27', '3900.90');";
             int res = App.MainSqlHelper.Insert(sql);
@@ -66,7 +71,8 @@ namespace SqlDaoDemo
             {
                 Console.WriteLine("Insert successed");
             }
-            else {
+            else
+            {
                 Console.WriteLine("Insert failured");
             }
             //3
@@ -81,7 +87,8 @@ namespace SqlDaoDemo
                 Console.WriteLine("Insert failured");
             }
         }
-        private void TestDelete() {
+        private void TestDelete()
+        {
 
             //1
             //string sql = " delete from user where id >5 ;";          
@@ -95,10 +102,10 @@ namespace SqlDaoDemo
             //    Console.WriteLine($"删除失败");
             //}
             //2
-            User user = new User { Id = 7};
+            User user = new User { Id = 7 };
             int rows = App.MainSqlHelper.Delete(user);
 
-           // int rows = App.MainSqlHelper.Delete(user,isTrueDelete:false); //不删除数据，把字段is_delete 改为 1
+            // int rows = App.MainSqlHelper.Delete(user,isTrueDelete:false); //不删除数据，把字段is_delete 改为 1
             if (rows > 0)
             {
                 Console.WriteLine($"成功删除");
@@ -108,17 +115,32 @@ namespace SqlDaoDemo
                 Console.WriteLine($"删除失败");
             }
         }
-        private void TestSelect() {
+        private void TestSelect()
+        {
+            //查询 User表中的所有记录
             string sql = SqlBuilder.GetSelectSql(TableName.user.ToString());
-            string sql1 = SqlBuilder.GetSelectSql(TableName.user.ToString(), fields: "id ,name", conditon: "id >5 and is_delete =0");               
-            string sql2 = SqlBuilder.GetSelectSql(TableName.user.ToString(),fields:null,conditon:null,groupBy:null,having:null,orderBy:"id desc",limit:10,offset:0);
+            List<User> users = App.MainSqlHelper.Select<User>(sql);
+            Console.WriteLine("--datas : " + users.Count);
+            //查询 User表中 di > 5 并且 is_delete =0 的所有记录的 id 和 name 字段
+            string sql1 = SqlBuilder.GetSelectSql(TableName.user.ToString(), fields: "id ,name", conditon: "id >5 and is_delete =0");
+            List<User> users1 = App.MainSqlHelper.Select<User>(sql1);
+            Console.WriteLine("--datas : " + users1.Count);
+            //查询User表中的 10 条数据，按id 倒序排序
+            string sql2 = SqlBuilder.GetSelectSql(TableName.user.ToString(), fields: null, conditon: null, groupBy: null, having: null, orderBy: "id desc", limit: 10, offset: 0);
+            List<User> users2 = App.MainSqlHelper.Select<User>(sql2);
+            Console.WriteLine("--datas : " + users2.Count);
 
+            //多表查询需要手动拼写Sql语句
+            String joinSql = "SELECT u.* ,r.money,r.remark FROM record as r JOIN `user` as u where u.is_delete = 0 and u.id = r.user_id";
+            List<Object> os = App.MainSqlHelper.Select<Object>(joinSql);
 
         }
-        private void TestUpdate() {
+        private void TestUpdate()
+        {
             //1
             User user = new User
-            {   Id = 5, //数据表中一定要有这条数据。否则修改失败
+            {
+                Id = 5, //数据表中一定要有这条数据。否则修改失败
                 Name = "Wolf123",
                 Age = 27,
                 Salary = (decimal)3900.90,
@@ -133,7 +155,7 @@ namespace SqlDaoDemo
                 Console.WriteLine("Insert failured");
             }
             // 2
-           // string sql2 = SqlBuilder.GetUpdateSql(TableName.user.ToString(), "anme ='Wolf123' , age='27'", "id = 5 ");
+            // string sql2 = SqlBuilder.GetUpdateSql(TableName.user.ToString(), "anme ='Wolf123' , age='27'", "id = 5 ");
             string sql = SqlBuilder.GetUpdateSql(user);
 
             int res = App.MainSqlHelper.Update(sql);
@@ -148,7 +170,7 @@ namespace SqlDaoDemo
             }
 
             //3 upadte or insert
-           
+
 
         }
 
@@ -172,6 +194,69 @@ namespace SqlDaoDemo
             }
         }
 
+        private void TestTransation()
+        {
+            int userId = 1;
+            User user = App.MainSqlHelper.FindById<User>(userId);
+            if (user != null)
+            {
+                String asql = SqlBuilder.GetSelectSql(TableName.account.ToString(), null, "user_id = " + user.Id);
+                Account account = App.MainSqlHelper.Find<Account>(asql);
+                string accSql;
+                if (account != null)
+                {
+                    account.Money += user.Salary;
+                    accSql = SqlBuilder.GetUpdateSql(account);
+                }
+                else
+                {
+                    account = new Account
+                    {
+                        UserId = user.Id,
+                        Money = user.Salary
+                    };
+                    accSql = SqlBuilder.GetInsertSql(account);
+                }
+                Record record = new Record
+                {
+                    Id = 1,
+                    UserId = user.Id,
+                    Money = user.Salary,
+                    UpdateTime = DateTime.Now,
+                    Remark = "发11 月份工资"
+                };
+                string insertsql = SqlBuilder.GetInsertSql(record);
+                string[] sqls = new string[] { accSql, insertsql };
+
+                // statr transation
+                int res = App.MainSqlHelper.TransactionExecute(sqls);
+
+                if (res > 0)
+                {
+                    Console.WriteLine("操作成功！");
+                }
+                else
+                {
+                    Console.WriteLine("操作失败！");
+                }
+            }
+        }
+
+        private void TestExist()
+        {
+            //判断用户id 为1 的用户是否存在
+            User user = new User { Id = 1, };
+
+            Boolean res = App.MainSqlHelper.CheckExist<User>(user);
+            if (res)
+            {
+                // 存在
+            }
+            else
+            {
+                //不存在
+            }
+        }
         private void SqlBuild_Click(object sender, RoutedEventArgs e)
         {
             User user = new User();
@@ -187,12 +272,13 @@ namespace SqlDaoDemo
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             String connstr = ConfigurationManager.ConnectionStrings["mysqlConn"].ConnectionString.ToString();
-            MySqlHelper mySqlHelper=   new MySqlHelper(connstr);
+            MySqlHelper mySqlHelper = new MySqlHelper(connstr);
             if (mySqlHelper.IsConnecting())
             {
                 Console.WriteLine("----IsConnected: True");
             }
-            else {
+            else
+            {
                 Console.WriteLine("----IsConnected: False");
             }
 
@@ -219,14 +305,14 @@ namespace SqlDaoDemo
 
             String connstr = ConfigurationManager.ConnectionStrings["mysqlConn"].ConnectionString.ToString();
             MySqlHelper mySqlHelper = new MySqlHelper(connstr);
-           int res = mySqlHelper.Insert(user);
-            Console.WriteLine("----res: "+res);
+            int res = mySqlHelper.Insert(user);
+            Console.WriteLine("----res: " + res);
             string selectSql = SqlBuilder.GetSelectSql("user");
             List<User> datas = mySqlHelper.Select<User>(selectSql);
 
             Console.WriteLine("----datas.lengh: " + datas.Count);
         }
 
-      
+
     }
 }

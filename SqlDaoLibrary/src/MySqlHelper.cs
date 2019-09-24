@@ -339,7 +339,7 @@ namespace SqlDao
         /// </summary>
         /// <param name="sqls"></param>
         /// <returns></returns>
-        public override int TransactionExecute(string[] sqls)
+        public override int TransactionExecute(params string[] sqls)
         {
             int affectedRows = 0;
             DbTransaction transation = Connection.BeginTransaction();
@@ -357,8 +357,7 @@ namespace SqlDao
             }
             catch (Exception)
             {
-                transation.Rollback();
-                throw;
+                transation.Rollback();               
             }
             finally
             {              
@@ -366,6 +365,8 @@ namespace SqlDao
             }
             return affectedRows;
         }
+
+        
         /// <summary>
         /// 执行删除语句
         /// </summary>
@@ -511,6 +512,44 @@ namespace SqlDao
         {
             return Connection.State == ConnectionState.Open;
         }
+        /// <summary>
+        /// 根据Id查找对像
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="id"></param>
+        /// <returns> 对像  or null</returns>
+        public override T FindById<T>(int id)
+        {
+            object t = Activator.CreateInstance(typeof(T));
+            string tableName = StringHelper.camelCaseToDBnameing(t.GetType().Name);
+            String sql = SqlBuilder.GetSelectSql(tableName, null,"id = " + id);          
+            return Find<T>(sql); 
+        }
 
+
+        public override T Find<T>(string sql)
+        {
+            DataTable dt = ExcuteDataTable(sql);
+            if (dt.Rows.Count <= 0) {
+                return (T)Null();
+            }
+            Type type = typeof(T);
+            DataRow row = dt.Rows[0];
+                PropertyInfo[] pArray = type.GetProperties();
+                T entity = new T();
+                foreach (PropertyInfo p in pArray)
+                {
+                    if (row.Table.Columns.Contains(StringHelper.camelCaseToDBnameing(p.Name)))
+                    {
+                        if (row[StringHelper.camelCaseToDBnameing(p.Name)] is DBNull)
+                        {
+                            p.SetValue(entity, null, null);
+                            continue;
+                        }
+                        p.SetValue(entity, row[StringHelper.camelCaseToDBnameing(p.Name)], null);
+                    }
+                }
+            return entity;
+        }
     }
 }

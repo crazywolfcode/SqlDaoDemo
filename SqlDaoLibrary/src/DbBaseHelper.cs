@@ -16,14 +16,27 @@ namespace SqlDao
 
         public abstract Boolean IsConnecting();
         public abstract Boolean IsOpened();
-
+        /// <summary>
+        /// 根据Id查找对像
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="id"></param>
+        /// <returns> 对像  or null</returns>
+        public abstract T FindById<T>(int id) where T : class , new();
+ 
         /// <summary>
         /// 按sql语句查询
         /// </summary>
         /// <param name="sql">sql语句查询</param>
-        /// <returns>Datatable</returns>
+        /// <returns>List</returns>
         public abstract List<T> Select<T>(string sql) where T : class, new();
 
+        /// <summary>
+        /// 按sql语句查询 一条数据
+        /// </summary>
+        /// <param name="sql">sql语句查询</param>
+        /// <returns>T</returns>
+        public abstract T Find<T>(string sql) where T : class, new();
         /// <summary>
         /// 检查对像是已经存在于数据库中
         /// </summary>
@@ -132,5 +145,10 @@ namespace SqlDao
 
 
         public abstract List<TableScema> GetTableSchema(string tableName);
+
+        public object Null()
+        {
+            return null;
+        }
     }
 }
