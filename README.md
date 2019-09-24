@@ -14,6 +14,7 @@ C# 操作数据库的DAO类库,CURD 操作不需要拼写SQl语句，节约时�
  ```Install-Package  SqlDao```
  
  ## 配制
+ 
     以Wpf 桌面项目为例，通常我们是把数据库的连接字符串放到 app.config 文件中
     
     ```xml
@@ -27,6 +28,7 @@ C# 操作数据库的DAO类库,CURD 操作不需要拼写SQl语句，节约时�
         </startup>
     </configuration>
     ```
+    
     在代码内获取配制
     
     ```
@@ -36,6 +38,7 @@ C# 操作数据库的DAO类库,CURD 操作不需要拼写SQl语句，节约时�
  ## 使用
  
  ### 最基本的使用（不推荐）
+ 
 ```
   //增加一个用户
    User user = new User
