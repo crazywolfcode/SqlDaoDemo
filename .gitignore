@@ -4,8 +4,8 @@
 
 *.lock
 */.vs
-*/SqlDaoDome/bin
-*/SqlDaoDome/obj
+*[Bb]in/
+*[Oo]bj/
 */.vs/SqlDaoDemo/v16/Server/sqlite3/storage.ide
 *.ide-shm
 *.ide-wal
