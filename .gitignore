@@ -3,6 +3,9 @@
 ################################################################################
 
 *.lock
-/.vs/SqlDaoDemo/v16/Server/sqlite3/storage.ide
+*/.vs
+*/SqlDaoDome/bin
+*/SqlDaoDome/obj
+*/.vs/SqlDaoDemo/v16/Server/sqlite3/storage.ide
 *.ide-shm
 *.ide-wal
