@@ -5,7 +5,7 @@
 [![nuget-version](https://img.shields.io/nuget/v/1.0.2.svg)](https://www.nuget.org/packages/SqlDao/1.0.1)
 ![qq-group](https://img.shields.io/badge/qq-443055589-red.svg)
 # SqlDaoDemo
-C# 操作数据库的DAO类库,CURD 操作不需要拼写SQl语句，节约时间，提高开发效率，亲测  Mysql 、SQLite 好用。
+C# 操作数据库的DAO类库,CURD 操作不需要拼写SQl语句,支持事务操作，节约时间，提高开发效率，亲测  Mysql 、SQLite 好用。
 
 ## 获取
 
