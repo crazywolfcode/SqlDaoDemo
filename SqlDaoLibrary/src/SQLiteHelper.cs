@@ -54,13 +54,15 @@ namespace SqlDao
         {
             if (string.IsNullOrEmpty(connstr))
             {
-                throw new Exception("连接的字符串不正确。");
+                throw new Exception("连接的字符串不能为空。");
             }
             else
             {
-                if (!connstr.StartsWith("DataSource="))
-                    connstr = "DataSource=" + connstr;
+            if(connstr.StartsWith("DataSource=") || connstr.StartsWith("data source=")){
                 connectionString = connstr;
+            }else{
+                connstr = "DataSource=" + connstr;
+                }
             }
         }
 
