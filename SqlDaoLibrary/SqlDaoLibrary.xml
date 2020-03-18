@@ -1,0 +1,995 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SqlDaoLibrary</name>
+    </assembly>
+    <members>
+        <member name="T:SqlDao.DatatableHelper">
+            <summary>
+            Datatable Helper
+            </summary>
+        </member>
+        <member name="M:SqlDao.DatatableHelper.DataTableToList``1(System.Data.DataTable)">
+            <summary>  
+            DataTable转化为List集合  
+            </summary>  
+            <typeparam name="T">实体对象</typeparam>  
+            <param name="dataTable">datatable表</param>  
+            <returns>返回list集合</returns>  
+        </member>
+        <member name="M:SqlDao.DatatableHelper.ListToDataTable``1(System.Collections.Generic.List{``0})">
+            <summary>  
+            List集合转DataTable  
+            </summary>  
+            <typeparam name="T">实体类型</typeparam>  
+            <param name="list">传入集合</param>  
+            <returns>返回datatable结果</returns>
+        </member>
+        <member name="M:SqlDao.DatatableHelper.DataTableToEntity``1(System.Data.DataTable,System.Int32)">
+            <summary>  
+            提取DataTable某一行转为指定对象
+            </summary>  
+            <typeparam name="T">实体</typeparam>  
+            <param name="dataTable">传入的表格</param>  
+            <param name="rowIndex">table行索引，默认为第一行</param>  
+            <returns>返回实体对象</returns> 
+        </member>
+        <member name="T:SqlDao.JsonHelper">
+            <summary>
+            Json Helper
+            </summary>
+        </member>
+        <member name="M:SqlDao.JsonHelper.ObjectToJson(System.Object)">
+            <summary>
+            从一个对象信息生成Json串 包含DataTable
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SqlDao.JsonHelper.JsonToObject(System.String,System.Type)">
+            <summary>
+            从一个Json串生成对象信息
+            </summary>
+            <param name="jsonString"></param>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SqlDao.JsonHelper.JsonToDataTable(System.String)">
+            <summary>
+            从一个Json串生成DataTable对象信息
+            </summary>
+            <param name="jsonString"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SqlDao.StringHelper">
+            <summary>
+            String Helper
+            </summary>
+        </member>
+        <member name="M:SqlDao.StringHelper.DBNamingToCamelCase(System.String,System.Boolean)">
+            <summary>
+            数据库命名法转化为驼峰命名法
+            </summary>
+            <param name="name"></param>
+            <param name="isBigCamelCaes">is Big Camel Caes</param>
+            <returns></returns>
+        </member>
+        <member name="M:SqlDao.StringHelper.CamelCaseToDBnameing(System.String,System.Boolean)">
+            <summary>
+            驼峰命名法转化为数据库命名法
+            </summary>
+            <param name="name"></param>
+            <param name="isBigCamelCaes">is Big Camel Caes</param>
+            <returns></returns>
+        </member>
+        <member name="M:SqlDao.StringHelper.IsInt(System.String)">
+            <summary>
+            是否为整型
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SqlDao.StringHelper.JsonCamelCaseToDBnameing(System.String)">
+            <summary>
+            Json 命名改为数据库命名
+            </summary>
+            <param name="json"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SqlDao.StringHelper.JsonDBnameingToCamelCase(System.String)">
+            <summary>
+            Json 命名改为驼峰命名
+            </summary>
+            <param name="json"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SqlDao.StringHelper.dbNameToClassName(System.String)">
+            <summary>
+            数据库表名转化为类名
+            </summary>
+            <param name="dbname"> 数据库表名</param>
+            <returns>类名</returns>
+        </member>
+        <member name="M:SqlDao.StringHelper.upperCaseFirstLetter(System.String)">
+            <summary>
+            将一个单词的第一个字母变为大写
+            </summary>
+            <param name="str"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SqlDao.StringHelper.LowerCaseFirstLetter(System.String)">
+            <summary>
+            将一个单词的第一个字母变为小写
+            </summary>
+            <param name="str"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SqlDao.StringHelper.isUpper(System.Char)">
+            <summary>
+            判断字符是否为大写字母
+            </summary>
+            <param name="c"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SqlDao.MysqlConnectionStringBuilder">
+            <summary>
+            Mysql Connection String Builder
+            </summary>
+        </member>
+        <member name="M:SqlDao.MysqlConnectionStringBuilder.BuildConnectionString(System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            构建连接字符串
+            如 ："Database=weightsys;Data Source=192.168.88.3;User Id=admin;Password=Txmy0071;pooling=false;CharSet=utf8;port=33069";
+            </summary>
+            <param name="dataSource">数据源 | IP</param>
+            <param name="db">数据库存名称</param>
+            <param name="userId">用户名称</param>
+            <param name="pwd">密码</param>
+            <param name="port">端口</param>
+            <returns></returns>
+        </member>
+        <member name="T:SqlDao.SqlBuilder">
+            <summary>
+            sql 语句 构建器
+            </summary>
+        </member>
+        <member name="F:SqlDao.SqlBuilder.splitChar">
+            <summary>
+            , 号
+            </summary>
+        </member>
+        <member name="F:SqlDao.SqlBuilder.valueSplitChar">
+            <summary>
+            '
+            </summary>
+        </member>
+        <member name="F:SqlDao.SqlBuilder.buildSqlErrorMessage">
+            <summary>
+            错误提示
+            </summary>
+        </member>
+        <member name="M:SqlDao.SqlBuilder.GetTableName``1(``0)">
+            <summary>
+            获取一个对像所对应的数据表名
+            </summary>
+            <typeparam name="T">类型</typeparam>
+            <param name="obj">类型的对像</param>
+            <returns>数据表名</returns>
+        </member>
+        <member name="M:SqlDao.SqlBuilder.GetSelectSqlWithSoftDeleteCondition(System.String,System.String,System.String,System.String,System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            查询SQL语句 自动加上软删除的条件
+            </summary>
+            <param name="tableName"></param>
+            <param name="fields"></param>
+            <param name="conditon"></param>
+            <param name="groupBy"></param>
+            <param name="having"></param>
+            <param name="orderBy"></param>
+            <param name="limit"></param>
+            <param name="offset"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SqlDao.SqlBuilder.GetSelectSql(System.String,System.String,System.String,System.String,System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            获得查询SQL语句 去除软删除的条件
+            </summary>
+            <param name="tableName">表名</param>
+            <param name="fields">字段</param>
+            <param name="conditon">条件</param>
+            <param name="groupBy">分组</param>
+            <param name="having">分组条件</param>
+            <param name="orderBy">排序</param>
+            <param name="limit"></param>
+            <param name="offset"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SqlDao.SqlBuilder.GetInsertSql``1(``0)">
+             <summary>
+            拼装通用的插入SQL语句
+             </summary>
+             <typeparam name="T">类型</typeparam>
+             <param name="obj">类型的对像</param>
+             <returns>插入SQL语句</returns>
+        </member>
+        <member name="M:SqlDao.SqlBuilder.GetUpdateSql(System.String,System.String,System.String)">
+            <summary>
+            获取修改SQL语句
+            </summary>
+            <param name="tableName">表名</param>
+            <param name="set"></param>
+            <param name="condition"></param>
+            <returns>修改SQL语句 或 null </returns>
+        </member>
+        <member name="M:SqlDao.SqlBuilder.GetUpdateSql``1(``0)">
+             <summary>
+            拼装通用的修改SQL语句
+             </summary>
+             <typeparam name="T">类型</typeparam>
+             <param name="obj">类型的对像</param>
+             <returns>修改SQL语句</returns>
+        </member>
+        <member name="M:SqlDao.SqlBuilder.GetDeleteSql``1(``0,System.Boolean)">
+             <summary>
+            拼装通用的删除SQL语句 判断是否支持软删除
+             </summary>
+             <typeparam name="T">类型</typeparam>
+             <param name="obj">类型的对像</param>
+               /// <param name="isTrueDelete">是否真的删除 默认软删除</param>
+             <returns>删除SQL语句</returns>
+        </member>
+        <member name="M:SqlDao.SqlBuilder.GetDeleteSql(System.String,System.String)">
+            <summary>
+            获取删除SQL语句
+            </summary>
+            <param name="tableName">表名：不能为null</param>
+            <param name="condition">条件：不能为null</param>
+            <returns>SQL语句 或者 null</returns>
+        </member>
+        <member name="T:SqlDao.SqliteConnectionStringBuilder">
+            <summary>
+            Sqlite Connection String Builder
+            </summary>
+        </member>
+        <member name="M:SqlDao.SqliteConnectionStringBuilder.BuildConnectionString(System.String)">
+            <summary>
+            构建 SQLite 数据库连接字符串
+            如：Data Source=./data/data.db;Version=3;Pooling=False;Max Pool Size=100;
+            </summary>
+            <param name="dbname">数据库名称 *.db</param>
+            <returns></returns>
+        </member>
+        <member name="T:SqlDao.DbHelper">
+            <summary>
+            数据库存的帮助类
+            </summary>
+        </member>
+        <member name="F:SqlDao.DbHelper.connectionString">
+            <summary>
+            连接字符串
+            </summary>
+        </member>
+        <member name="M:SqlDao.DbHelper.IsConnecting">
+            <summary>
+            是否正在连接
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SqlDao.DbHelper.IsOpened">
+            <summary>
+            连接是否已经打开
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SqlDao.DbHelper.FindById``1(System.Int32)">
+            <summary>
+            根据Id查找对像
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="id"></param>
+            <returns> 对像  or null</returns>
+        </member>
+        <member name="M:SqlDao.DbHelper.Select``1(System.String)">
+            <summary>
+            按sql语句查询
+            </summary>
+            <param name="sql">sql语句查询</param>
+            <returns>List</returns>
+        </member>
+        <member name="M:SqlDao.DbHelper.Find``1(System.String)">
+            <summary>
+            按sql语句查询 一条数据
+            </summary>
+            <param name="sql">sql语句查询</param>
+            <returns>T</returns>
+        </member>
+        <member name="M:SqlDao.DbHelper.CheckExist``1(``0)">
+            <summary>
+            检查对像是已经存在于数据库中
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SqlDao.DbHelper.ExcuteDataTable(System.String)">
+            <summary>
+            执行 sql 语句，返回 DataTable
+            </summary>
+            <param name="sql"> sql 语句</param>
+            <returns> DataTable </returns>
+        </member>
+        <member name="M:SqlDao.DbHelper.CheckConn(System.String)">
+            <summary>
+            检查连接能否打开
+            </summary>
+            <param name="connstring">连接字符串</param>
+            <returns>true  or false</returns>
+        </member>
+        <member name="M:SqlDao.DbHelper.ExistTable(System.String,System.String)">
+            <summary>
+            judge the table is or not exist 表是否存在
+            </summary>
+            <param name="dbName">库名</param>
+            <param name="table">表名</param>
+            <returns></returns>
+        </member>
+        <member name="M:SqlDao.DbHelper.GetAllTable(System.String)">
+            <summary>
+            get the all tables in the databaes
+            获取数据中所有表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SqlDao.DbHelper.GetAllTableName(System.String)">
+            <summary>
+            get the all table's name of in the database
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SqlDao.DbHelper.GetAllTableSchema``1(System.String)">
+            <summary>
+            获取数据库中所有表的结构
+            </summary>
+            <typeparam name="T"> TableScema和子类</typeparam>
+            <param name="dbname">库名</param>
+            <returns></returns>
+        </member>
+        <member name="M:SqlDao.DbHelper.GetCreateSql(System.String)">
+            <summary>
+            get the schema of table
+            </summary>
+            <param name="tableName"></param>
+            <returns></returns>    
+        </member>
+        <member name="M:SqlDao.DbHelper.Delete``1(``0,System.Boolean)">
+            <summary>
+            删除对像 ，支持软件删除
+            </summary>
+            <typeparam name="T">对像类型</typeparam>
+            <param name="obj">对像</param>
+            <param name="isTrueDelete">是否真的删除 默认软删除</param>
+            <returns>影响行数</returns>
+        </member>
+        <member name="M:SqlDao.DbHelper.Delete(System.String)">
+            <summary>
+            删除操作
+            </summary>
+            <param name="sql"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SqlDao.DbHelper.Update(System.String)">
+            <summary>
+            执行修改语句
+            </summary>
+            <param name="sql">删除语句</param>
+            <returns>影响行数</returns>
+        </member>
+        <member name="M:SqlDao.DbHelper.Update``1(``0)">
+            <summary>
+            修改对像
+            </summary>
+            <typeparam name="T">对像类型</typeparam>
+            <param name="obj">对像</param>
+            <returns>影响行数</returns>
+        </member>
+        <member name="M:SqlDao.DbHelper.Insert(System.String)">
+            <summary>
+            执行插入语句
+            </summary>
+            <param name="sql">插入语句</param>
+            <returns>影响行数</returns>
+        </member>
+        <member name="M:SqlDao.DbHelper.Insert``1(``0)">
+            <summary>
+            插入对像
+            </summary>
+            <typeparam name="T">对像类型</typeparam>
+            <param name="obj">对像</param>
+            <returns>影响行数</returns>
+        </member>
+        <member name="M:SqlDao.DbHelper.InsertOrUpdate``1(``0)">
+            <summary>
+            插入或者更新对像
+            </summary>
+            <typeparam name="T">对像类型</typeparam>
+            <param name="obj">对像</param>
+            <returns>影响行数</returns>
+        </member>
+        <member name="M:SqlDao.DbHelper.TransactionExecute(System.String[])">
+            <summary>
+            事务处理多条多条操作
+            </summary>
+            <param name="sqls"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SqlDao.DbHelper.GetTableSchema``1(System.String)">
+            <summary>
+            获取表结构
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="tableName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SqlDao.DbHelper.Null">
+            <summary>
+            return null 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:SqlDao.MySqlHelper">
+            <summary>
+            Mysql 助手类
+            </summary>
+        </member>
+        <member name="P:SqlDao.MySqlHelper.Connection">
+            <summary>
+            连接对像
+            </summary>
+        </member>
+        <member name="M:SqlDao.MySqlHelper.#ctor(System.String)">
+            <summary>
+            构造方法
+            </summary>
+        </member>
+        <member name="M:SqlDao.MySqlHelper.CheckConn(System.String)">
+            <summary>
+            检查连接能否打开
+            </summary>
+            <param name="connstring"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SqlDao.MySqlHelper.GetAllTable(System.String)">
+            <summary>
+            get the all tables in the databaes
+            获取数据中所有表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SqlDao.MySqlHelper.GetAllTableName(System.String)">
+            <summary>
+            get the all table's name of in the database
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SqlDao.MySqlHelper.GetAllTableSchema``1(System.String)">
+            <summary>
+            获取表结构
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="dbname"> 库名</param>
+            <returns></returns>
+        </member>
+        <member name="M:SqlDao.MySqlHelper.GetAllTableSchema8(System.String)">
+            <summary>
+            mysql 8.0 
+            </summary>
+            <param name="dbname"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SqlDao.MySqlHelper.ExistTable(System.String,System.String)">
+            <summary>
+            judge the table is or not exist
+            </summary>
+            <param name="dbName"></param>
+            <param name="table"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SqlDao.MySqlHelper.GetTableSchema``1(System.String)">
+            <summary>
+            get the schema of table
+            </summary>
+            <param name="tableName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SqlDao.MySqlHelper.GetTableColumnSchema(System.String,System.String)">
+            <summary>
+            获取所有表的所有列结构
+            </summary>
+            <param name="dbname">库名</param>
+            <param name="tablename">表名</param>
+            <returns></returns>
+        </member>
+        <member name="M:SqlDao.MySqlHelper.GetCreateSql(System.String)">
+            <summary>
+            数据表的结构语句
+            </summary>
+            <param name="tableName">表名</param>
+            <returns></returns>
+        </member>
+        <member name="M:SqlDao.MySqlHelper.Select``1(System.String)">
+            <summary>
+            按SQl语句查询 
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="sql"></param>
+            <returns>DataTable</returns>
+        </member>
+        <member name="M:SqlDao.MySqlHelper.ExcuteDataTable(System.String,MySql.Data.MySqlClient.MySqlParameter[])">
+            <summary>  
+            查询  
+            </summary>  
+            <param name="sql">要执行的sql语句</param>  
+            <param name="parameters">所需参数</param>  
+            <returns>结果DataTable</returns>  
+        </member>
+        <member name="M:SqlDao.MySqlHelper.ExcuteDataTable(System.String)">
+            <summary>  
+            查询  
+            </summary>  
+            <param name="sql">要执行的sql语句</param>  
+            <returns>结果DataTable</returns>  
+        </member>
+        <member name="M:SqlDao.MySqlHelper.ExecuteNonQuery(System.String,MySql.Data.MySqlClient.MySqlParameter[])">
+            <summary>  
+            增删改  
+            </summary>  
+            <param name="sql">要执行的sql语句</param>  
+            <param name="parametes">所需参数</param>  
+            <returns>所受影响的行数</returns>  
+        </member>
+        <member name="M:SqlDao.MySqlHelper.TransactionExecute(System.String[])">
+            <summary>
+            事务处理多条多条操作
+            </summary>
+            <param name="sqls"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SqlDao.MySqlHelper.Delete(System.String)">
+            <summary>
+            执行删除语句
+            </summary>
+            <param name="sql">删除语句</param>
+            <returns>影响行数</returns>
+        </member>
+        <member name="M:SqlDao.MySqlHelper.Delete``1(``0,System.Boolean)">
+            <summary>
+            删除对像 ，支持软件删除
+            </summary>
+            <typeparam name="T">对像类型</typeparam>
+            <param name="obj">对像</param>
+            <param name="isTrueDelete">是否真的删除 默认软删除</param>
+            <returns>影响行数</returns>
+        </member>
+        <member name="M:SqlDao.MySqlHelper.Update(System.String)">
+            <summary>
+            执行修改语句
+            </summary>
+            <param name="sql">删除语句</param>
+            <returns>影响行数</returns>
+        </member>
+        <member name="M:SqlDao.MySqlHelper.Update``1(``0)">
+            <summary>
+            修改对像
+            </summary>
+            <typeparam name="T">对像类型</typeparam>
+            <param name="obj">对像</param>
+            <returns>影响行数</returns>
+        </member>
+        <member name="M:SqlDao.MySqlHelper.Insert(System.String)">
+            <summary>
+            执行插入语句
+            </summary>
+            <param name="sql">插入语句</param>
+            <returns>影响行数</returns>
+        </member>
+        <member name="M:SqlDao.MySqlHelper.Insert``1(``0)">
+            <summary>
+            插入对像
+            </summary>
+            <typeparam name="T">对像类型</typeparam>
+            <param name="obj">对像</param>
+            <returns>影响行数</returns>
+        </member>
+        <member name="M:SqlDao.MySqlHelper.InsertOrUpdate``1(``0)">
+            <summary>
+            插入或者更新对像
+            </summary>
+            <typeparam name="T">对像类型</typeparam>
+            <param name="obj">对像</param>
+            <returns>影响行数</returns>
+        </member>
+        <member name="M:SqlDao.MySqlHelper.CheckExist``1(``0)">
+            <summary>
+            检查对像是已经存在于数据库中
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SqlDao.MySqlHelper.IsConnecting">
+            <summary>
+            是否正在连接
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SqlDao.MySqlHelper.IsOpened">
+            <summary>
+            连接是否已经打开
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SqlDao.MySqlHelper.FindById``1(System.Int32)">
+            <summary>
+            根据Id查找对像
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="id"></param>
+            <returns> 对像  or null</returns>
+        </member>
+        <member name="M:SqlDao.MySqlHelper.Find``1(System.String)">
+            <summary>
+            根据Sql 语句查找一个对像
+            </summary>
+            <typeparam name="T">要查找一个对像</typeparam>
+            <param name="sql">Sql 语句</param>
+            <returns></returns>
+        </member>
+        <member name="T:SqlDao.DbSchema">
+            <summary>
+            DataBase Schema
+            </summary>
+        </member>
+        <member name="P:SqlDao.DbSchema.TableName">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:SqlDao.DbSchema.TableComment">
+            <summary>
+            注解
+            </summary>
+        </member>
+        <member name="P:SqlDao.DbSchema.CreateTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:SqlDao.DbSchema.UpdateTime">
+            <summary>
+            修改时间
+            </summary>
+        </member>
+        <member name="P:SqlDao.DbSchema.TableRows">
+            <summary>
+            数据行数
+            </summary>
+        </member>
+        <member name="P:SqlDao.DbSchema.DataLength">
+            <summary>
+            数据长度
+            </summary>
+        </member>
+        <member name="T:SqlDao.MysqlTabeSchema">
+            <summary>
+            Mysql Tabe Schema
+            </summary>
+        </member>
+        <member name="P:SqlDao.MysqlTabeSchema.Field">
+            <summary>
+            字段
+            </summary>
+        </member>
+        <member name="P:SqlDao.MysqlTabeSchema.Type">
+            <summary>
+            类型
+            </summary>
+        </member>
+        <member name="P:SqlDao.MysqlTabeSchema.Null">
+            <summary>
+            空
+            </summary>
+        </member>
+        <member name="P:SqlDao.MysqlTabeSchema.Key">
+            <summary>
+            是否主键
+            </summary>
+        </member>
+        <member name="P:SqlDao.MysqlTabeSchema.Default">
+            <summary>
+            默认值
+            </summary>
+        </member>
+        <member name="P:SqlDao.MysqlTabeSchema.Extra">
+            <summary>
+            Extra 字段
+            </summary>
+        </member>
+        <member name="T:SqlDao.MysqlTableColumnSchema">
+            <summary>
+            MysqlTableColumnSchema
+            </summary>
+        </member>
+        <member name="P:SqlDao.MysqlTableColumnSchema.ColumnName">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:SqlDao.MysqlTableColumnSchema.Type">
+            <summary>
+            类型
+            </summary>
+        </member>
+        <member name="P:SqlDao.MysqlTableColumnSchema.DefaultValue">
+            <summary>
+            默认值
+            </summary>
+        </member>
+        <member name="P:SqlDao.MysqlTableColumnSchema.IsNullable">
+            <summary>
+            是否可以空
+            </summary>
+        </member>
+        <member name="P:SqlDao.MysqlTableColumnSchema.CommentValue">
+            <summary>
+            注解
+            </summary>
+        </member>
+        <member name="T:SqlDao.SqliteTableSchema">
+            <summary>
+            Sqlite Table Schema
+            </summary>
+        </member>
+        <member name="P:SqlDao.SqliteTableSchema.Name">
+            <summary>
+            字段
+            </summary>
+        </member>
+        <member name="P:SqlDao.SqliteTableSchema.Type">
+            <summary>
+            类型
+            </summary>
+        </member>
+        <member name="P:SqlDao.SqliteTableSchema.Notnull">
+            <summary>
+            可空
+            </summary>
+        </member>
+        <member name="P:SqlDao.SqliteTableSchema.Dflt_value">
+            <summary>
+            默认值
+            </summary>
+        </member>
+        <member name="P:SqlDao.SqliteTableSchema.Pk">
+            <summary>
+            是否主键
+            </summary>
+        </member>
+        <member name="T:SqlDao.TableScema">
+            <summary>
+            空类
+            </summary>
+        </member>
+        <member name="T:SqlDao.SQLiteHelper">
+            <summary>
+            SQLite Helper
+            </summary>
+        </member>
+        <member name="P:SqlDao.SQLiteHelper.Connection">
+            <summary>
+            连接对像
+            </summary>
+        </member>
+        <member name="M:SqlDao.SQLiteHelper.GetDbSavePath">
+            <summary>
+            get the save path of the database
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SqlDao.SQLiteHelper.#ctor(System.String)">
+            <summary>
+            构造器
+            </summary>
+            <param name="connstr">连接字符串</param>
+        </member>
+        <member name="M:SqlDao.SQLiteHelper.CheckConn(System.String)">
+            <summary>
+            检查连接能否打开
+            </summary>
+            <param name="connstring"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SqlDao.SQLiteHelper.Select``1(System.String)">
+            <summary>
+            按SQl语句查询 
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="sql"></param>
+            <returns>DataTable</returns>
+        </member>
+        <member name="M:SqlDao.SQLiteHelper.GetAllTable(System.String)">
+            <summary>
+            get the all tables in the databaes
+            获取数据中所有表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SqlDao.SQLiteHelper.GetAllTableSchema``1(System.String)">
+            <summary>
+            获取所有表的所有列结构
+            </summary>
+            <param name="dbname">库名</param>
+            <returns></returns>
+        </member>
+        <member name="M:SqlDao.SQLiteHelper.GetCreateSql(System.String)">
+            <summary>
+            数据表的结构语句
+            </summary>
+            <param name="tableName">表名</param>
+            <returns></returns>
+        </member>
+        <member name="M:SqlDao.SQLiteHelper.GetTableSchema``1(System.String)">
+            <summary>
+            get the schema of table
+            </summary>
+            <param name="tableName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SqlDao.SQLiteHelper.GetAllTableName(System.String)">
+            <summary>
+            get the all table's name of in the database
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SqlDao.SQLiteHelper.ExistTable(System.String,System.String)">
+            <summary>
+            检查表是否存在
+            </summary>
+            <param name="db">库</param>
+            <param name="tableName">表</param>
+            <returns></returns>
+        </member>
+        <member name="M:SqlDao.SQLiteHelper.ExcuteDataTable(System.String)">
+            <summary>  
+            SQLite查询  
+            </summary>   
+            <param name="sql">要执行的sql语句</param>  
+            <returns>结果DataTable</returns>  
+        </member>
+        <member name="M:SqlDao.SQLiteHelper.ExecuteNonQuery(System.String,System.Data.SQLite.SQLiteParameter[])">
+            <summary>  
+            SQLite增删改  
+            </summary>  
+            <param name="sql">要执行的sql语句</param>  
+            <param name="parametes">所需参数</param>  
+            <returns>所受影响的行数</returns>  
+        </member>
+        <member name="M:SqlDao.SQLiteHelper.TransactionExecute(System.String[])">
+            <summary>
+            事务处理多条多条操作
+            </summary>
+            <param name="sqls"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SqlDao.SQLiteHelper.ExcuteNoQuery(System.String)">
+            <summary>
+            执行该命令并返回受影响的插入更新的行数
+            </summary>
+            <param name="sql"> Sql </param>
+            <returns>行数</returns>
+        </member>
+        <member name="M:SqlDao.SQLiteHelper.Delete(System.String)">
+            <summary>
+            执行删除语句
+            </summary>
+            <param name="sql">删除语句</param>
+            <returns>影响行数</returns>
+        </member>
+        <member name="M:SqlDao.SQLiteHelper.Delete``1(``0,System.Boolean)">
+            <summary>
+            删除对像 ，支持软件删除
+            </summary>
+            <typeparam name="T">对像类型</typeparam>
+            <param name="obj">对像</param>
+            <param name="isTrueDelete">是否真的删除 默认软删除</param>
+            <returns>影响行数</returns>
+        </member>
+        <member name="M:SqlDao.SQLiteHelper.Update(System.String)">
+            <summary>
+            执行修改语句
+            </summary>
+            <param name="sql">删除语句</param>
+            <returns>影响行数</returns>
+        </member>
+        <member name="M:SqlDao.SQLiteHelper.Update``1(``0)">
+            <summary>
+            修改对像
+            </summary>
+            <typeparam name="T">对像类型</typeparam>
+            <param name="obj">对像</param>
+            <returns>影响行数</returns>
+        </member>
+        <member name="M:SqlDao.SQLiteHelper.Insert(System.String)">
+            <summary>
+            执行插入语句
+            </summary>
+            <param name="sql">插入语句</param>
+            <returns>影响行数</returns>
+        </member>
+        <member name="M:SqlDao.SQLiteHelper.Insert``1(``0)">
+            <summary>
+            插入对像
+            </summary>
+            <typeparam name="T">对像类型</typeparam>
+            <param name="obj">对像</param>
+            <returns>影响行数</returns>
+        </member>
+        <member name="M:SqlDao.SQLiteHelper.GetSchema">
+            <summary>  
+            查询数据库所有表信息  
+            </summary>  
+            <returns>数据库表信息DataTable</returns>  
+        </member>
+        <member name="M:SqlDao.SQLiteHelper.InsertOrUpdate``1(``0)">
+            <summary>
+            插入或者更新对像
+            </summary>
+            <typeparam name="T">对像类型</typeparam>
+            <param name="obj">对像</param>
+            <returns>影响行数</returns>
+        </member>
+        <member name="M:SqlDao.SQLiteHelper.CheckExist``1(``0)">
+            <summary>
+            检查对像是已经存在于数据库中
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SqlDao.SQLiteHelper.GetTableColumnSchema(System.String,System.String)">
+            <summary>
+            获取所有表的所有列结构
+            </summary>
+            <param name="dbname">库名</param>
+            <param name="tablename">表名</param>
+            <returns></returns>
+        </member>
+        <member name="M:SqlDao.SQLiteHelper.IsConnecting">
+            <summary>
+            是否正在连接
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SqlDao.SQLiteHelper.IsOpened">
+            <summary>
+            连接是否已经打开
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SqlDao.SQLiteHelper.FindById``1(System.Int32)">
+            <summary>
+            根据Id查找对像
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="id"></param>
+            <returns> 对像  or null</returns>
+        </member>
+        <member name="M:SqlDao.SQLiteHelper.Find``1(System.String)">
+            <summary>
+            根据Sql 语句查找一个对像
+            </summary>
+            <typeparam name="T">要查找一个对像</typeparam>
+            <param name="sql">Sql 语句</param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

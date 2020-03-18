@@ -5,7 +5,10 @@ using System.Text;
 
 namespace SqlDao
 {
-   public class SqliteConnectionStringBuilder : SqlBuilder
+    /// <summary>
+    /// Sqlite Connection String Builder
+    /// </summary>
+    public class SqliteConnectionStringBuilder : SqlBuilder
     {
 
         /// <summary>

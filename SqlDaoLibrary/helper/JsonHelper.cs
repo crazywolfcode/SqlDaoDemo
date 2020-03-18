@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace SqlDao
 {
+    /// <summary>
+    /// Json Helper
+    /// </summary>
     public class JsonHelper
     {
         /// <summary>
@@ -33,7 +36,6 @@ namespace SqlDao
         /// 从一个Json串生成DataTable对象信息
         /// </summary>
         /// <param name="jsonString"></param>
-        /// <param name="type"></param>
         /// <returns></returns>
         public static DataTable JsonToDataTable(string jsonString)
         {

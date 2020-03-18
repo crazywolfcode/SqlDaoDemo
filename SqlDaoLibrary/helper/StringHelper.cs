@@ -7,9 +7,12 @@ using System.Threading.Tasks;
 
 namespace SqlDao
 {
+    /// <summary>
+    /// String Helper
+    /// </summary>
     public class StringHelper
     {
-   
+
         /// <summary>
         /// 数据库命名法转化为驼峰命名法
         /// </summary>
@@ -51,7 +54,7 @@ namespace SqlDao
         /// <param name="name"></param>
         /// <param name="isBigCamelCaes">is Big Camel Caes</param>
         /// <returns></returns>
-        public static string camelCaseToDBnameing(string name, bool isBigCamelCaes = false)
+        public static string CamelCaseToDBnameing(string name, bool isBigCamelCaes = false)
         {
             if (name != null && name.Length > 0)
             {
@@ -77,7 +80,8 @@ namespace SqlDao
                         {
                             result += "_" + array[i].ToString();
                         }
-                        else {
+                        else
+                        {
                             result += array[i].ToString();
                         }
                     }
@@ -86,12 +90,21 @@ namespace SqlDao
             }
             return "";
         }
-
+        /// <summary>
+        /// 是否为整型
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public static bool IsInt(string value)
         {
             return Regex.IsMatch(value, @"^[+-]?/d*$");
         }
-        public static string jsonCamelCaseToDBnameing(string json)
+        /// <summary>
+        /// Json 命名改为数据库命名
+        /// </summary>
+        /// <param name="json"></param>
+        /// <returns></returns>
+        public static string JsonCamelCaseToDBnameing(string json)
         {
             if (string.IsNullOrEmpty(json))
             {
@@ -106,8 +119,12 @@ namespace SqlDao
             }
             return json;
         }
-
-        public static string jsonDBnameingToCamelCase(string json)
+        /// <summary>
+        /// Json 命名改为驼峰命名
+        /// </summary>
+        /// <param name="json"></param>
+        /// <returns></returns>
+        public static string JsonDBnameingToCamelCase(string json)
         {
             if (string.IsNullOrEmpty(json))
             {
@@ -118,7 +135,7 @@ namespace SqlDao
             MatchCollection colls = Regex.Matches(json, pattern);
             for (int i = 0; i < colls.Count; i++)
             {
-                json = json.Replace(colls[i].ToString(), camelCaseToDBnameing(colls[i].ToString()));
+                json = json.Replace(colls[i].ToString(), CamelCaseToDBnameing(colls[i].ToString()));
             }
             return json;
         }
@@ -161,6 +178,5 @@ namespace SqlDao
         {
             return c > 'A' && c < 'Z';
         }
-
     }
 }

@@ -9,12 +9,24 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace SqlDao
-{
+{/// <summary>
+/// 数据库存的帮助类
+/// </summary>
     public abstract class DbHelper
     {
+        /// <summary>
+        /// 连接字符串
+        /// </summary>
         public string connectionString = string.Empty;
-
+        /// <summary>
+        /// 是否正在连接
+        /// </summary>
+        /// <returns></returns>
         public abstract Boolean IsConnecting();
+        /// <summary>
+        /// 连接是否已经打开
+        /// </summary>
+        /// <returns></returns>
         public abstract Boolean IsOpened();
         /// <summary>
         /// 根据Id查找对像
@@ -44,20 +56,24 @@ namespace SqlDao
         /// <param name="obj"></param>
         /// <returns></returns>
         public abstract bool CheckExist<T>(T obj);
-
+        /// <summary>
+        /// 执行 sql 语句，返回 DataTable
+        /// </summary>
+        /// <param name="sql"> sql 语句</param>
+        /// <returns> DataTable </returns>
         public abstract DataTable ExcuteDataTable(string sql);
         /// <summary>
         /// 检查连接能否打开
         /// </summary>
-        /// <param name="connstring"></param>
-        /// <returns></returns>
+        /// <param name="connstring">连接字符串</param>
+        /// <returns>true  or false</returns>
         public abstract bool CheckConn(string connstring);
 
         /// <summary>
-        /// judge the table is or not exist
+        /// judge the table is or not exist 表是否存在
         /// </summary>
-        /// <param name="dbName"></param>
-        /// <param name="table"></param>
+        /// <param name="dbName">库名</param>
+        /// <param name="table">表名</param>
         /// <returns></returns>
         public abstract bool ExistTable(string dbName, string table);
 
@@ -75,7 +91,12 @@ namespace SqlDao
         /// <returns></returns>
         public abstract string[] GetAllTableName(string dbname);
 
-
+        /// <summary>
+        /// 获取数据库中所有表的结构
+        /// </summary>
+        /// <typeparam name="T"> TableScema和子类</typeparam>
+        /// <param name="dbname">库名</param>
+        /// <returns></returns>
         public abstract List<T> GetAllTableSchema<T>(string dbname);
 
         /// <summary>
@@ -93,6 +114,11 @@ namespace SqlDao
         /// <param name="isTrueDelete">是否真的删除 默认软删除</param>
         /// <returns>影响行数</returns>
         public abstract int Delete<T>(T obj, Boolean isTrueDelete = false);
+        /// <summary>
+        /// 删除操作
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <returns></returns>
         public abstract int Delete(string sql);
         /// <summary>
         /// 执行修改语句
@@ -140,10 +166,19 @@ namespace SqlDao
         /// <returns></returns>
         public abstract int TransactionExecute(string[] sqls);
 
-
+        /// <summary>
+        /// 获取表结构
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="tableName"></param>
+        /// <returns></returns>
         public abstract List<T> GetTableSchema<T>(string tableName) where T : TableScema;
-
-        public object Null()
+       
+        /// <summary>
+        /// return null 
+        /// </summary>
+        /// <returns></returns>
+        private object Null()
         {
             return null;
         }

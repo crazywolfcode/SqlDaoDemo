@@ -11,12 +11,16 @@ using MySql.Data.MySqlClient;
 
 namespace SqlDao
 {
-
+    /// <summary>
+    /// SQLite Helper
+    /// </summary>
     public sealed class SQLiteHelper : DbHelper
     {
-        public static string getTableSchemaSql = "SELECT name as tableName FROM sqlite_master WHERE type='table' ORDER BY name; ";
-        public SQLiteConnection connection;
-
+        private static string getTableSchemaSql = "SELECT name as tableName FROM sqlite_master WHERE type='table' ORDER BY name; ";
+        private SQLiteConnection connection;
+        /// <summary>
+        /// 连接对像
+        /// </summary>
         public SQLiteConnection Connection
         {
             get
@@ -49,7 +53,10 @@ namespace SqlDao
         {
             return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "data");
         }
-
+        /// <summary>
+        /// 构造器
+        /// </summary>
+        /// <param name="connstr">连接字符串</param>
         public SQLiteHelper(string connstr)
         {
             if (string.IsNullOrEmpty(connstr))
@@ -106,12 +113,12 @@ namespace SqlDao
                 T entity = new T();
                 foreach (PropertyInfo p in pArray)
                 {
-                    if (row[StringHelper.camelCaseToDBnameing(p.Name)] is DBNull)
+                    if (row[StringHelper.CamelCaseToDBnameing(p.Name)] is DBNull)
                     {
                         p.SetValue(entity, null, null);
                         continue;
                     }
-                    p.SetValue(entity, row[StringHelper.camelCaseToDBnameing(p.Name)], null);
+                    p.SetValue(entity, row[StringHelper.CamelCaseToDBnameing(p.Name)], null);
                 }
                 list.Add(entity);
             }
@@ -126,9 +133,13 @@ namespace SqlDao
         public override DataTable GetAllTable(String dbname = null)
         {
             string sql = "SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;  ";
-            return this.ExcuteDataTable(sql, null);
+            return this.ExcuteDataTable(sql);
         }
-
+        /// <summary>
+        /// 获取所有表的所有列结构
+        /// </summary>
+        /// <param name="dbname">库名</param>
+        /// <returns></returns>
         public override List<T> GetAllTableSchema<T>(String dbname = null)
         {
             List<T> dss = new List<T>();
@@ -137,11 +148,15 @@ namespace SqlDao
             dss = (List<T>)JsonHelper.JsonToObject(json, typeof(List<T>));
             return dss;
         }
-
-        public override string GetCreateSql(string tablename)
+        /// <summary>
+        /// 数据表的结构语句
+        /// </summary>
+        /// <param name="tableName">表名</param>
+        /// <returns></returns>
+        public override string GetCreateSql(string tableName)
         {
-            string sql = $"SELECT name,sql FROM sqlite_master WHERE type='table' and name = '{tablename}' ORDER BY name  ; ";
-            DataTable dt = this.ExcuteDataTable(sql, null);
+            string sql = $"SELECT name,sql FROM sqlite_master WHERE type='table' and name = '{tableName}' ORDER BY name  ; ";
+            DataTable dt = this.ExcuteDataTable(sql);
             if (dt.Rows.Count > 0)
             {
                 return dt.Rows[0][1].ToString();
@@ -161,7 +176,7 @@ namespace SqlDao
             }
             List<T> ts = null;
             string sql = string.Format(" PRAGMA table_info({0});", tableName);
-            DataTable dt = this.ExcuteDataTable(sql, null);
+            DataTable dt = this.ExcuteDataTable(sql);
             String json = JsonHelper.ObjectToJson(dt);
             ts = (List<T>)JsonHelper.JsonToObject(json, typeof(List<T>));
             return ts;
@@ -181,7 +196,12 @@ namespace SqlDao
             }
             return result;
         }
-
+        /// <summary>
+        /// 检查表是否存在
+        /// </summary>
+        /// <param name="db">库</param>
+        /// <param name="tableName">表</param>
+        /// <returns></returns>
         public override bool ExistTable(string db, string tableName)
         {
             if (string.IsNullOrEmpty(tableName))
@@ -189,7 +209,7 @@ namespace SqlDao
                 return false;
             }
             string sql = $"SELECT name as tableName FROM sqlite_master WHERE type='table' and name ='{tableName}'; ";
-            DataTable dt = this.ExcuteDataTable(sql, null);
+            DataTable dt = this.ExcuteDataTable(sql);
             if (dt.Rows.Count > 0) return true;
             return false;
         }
@@ -198,7 +218,6 @@ namespace SqlDao
         /// SQLite查询  
         /// </summary>   
         /// <param name="sql">要执行的sql语句</param>  
-        /// <param name="parameters">所需参数</param>  
         /// <returns>结果DataTable</returns>  
         public override DataTable ExcuteDataTable(string sql)
         {
@@ -212,7 +231,7 @@ namespace SqlDao
         }
 
 
-        public int query(string sql, Dictionary<string, object> parametes = null)
+        private int Query(string sql, Dictionary<string, object> parametes = null)
         {
             List<SQLiteParameter> sqlite_param = new List<SQLiteParameter>();
             if (parametes != null)
@@ -231,7 +250,7 @@ namespace SqlDao
         /// SQLite增删改  
         /// </summary>  
         /// <param name="sql">要执行的sql语句</param>  
-        /// <param name="parameters">所需参数</param>  
+        /// <param name="parametes">所需参数</param>  
         /// <returns>所受影响的行数</returns>  
         public int ExecuteNonQuery(string sql, SQLiteParameter[] parametes)
         {
@@ -295,6 +314,11 @@ namespace SqlDao
             }
             return affectedRows;
         }
+        /// <summary>
+        /// 执行该命令并返回受影响的插入更新的行数
+        /// </summary>
+        /// <param name="sql"> Sql </param>
+        /// <returns>行数</returns>
         public int ExcuteNoQuery(string sql)
         {
             using (SQLiteCommand command = new SQLiteCommand(sql, Connection))
@@ -441,17 +465,28 @@ namespace SqlDao
             }
 
         }
-
+        /// <summary>
+        /// 获取所有表的所有列结构
+        /// </summary>
+        /// <param name="dbname">库名</param>
+        /// <param name="tablename">表名</param>
+        /// <returns></returns>
         public List<MysqlTableColumnSchema> GetTableColumnSchema(string dbname, string tablename)
         {
             throw new NotImplementedException("not suport db type");
         }
-
+        /// <summary>
+        /// 是否正在连接
+        /// </summary>
+        /// <returns></returns>
         public override bool IsConnecting()
         {
             return Connection.State == ConnectionState.Connecting;
         }
-
+        /// <summary>
+        /// 连接是否已经打开
+        /// </summary>
+        /// <returns></returns>
         public override bool IsOpened()
         {
             return Connection.State == ConnectionState.Open;
@@ -466,16 +501,22 @@ namespace SqlDao
         public override T FindById<T>(int id)
         {
             object t = Activator.CreateInstance(typeof(T));
-            string tableName = StringHelper.camelCaseToDBnameing(t.GetType().Name);
+            string tableName = StringHelper.CamelCaseToDBnameing(t.GetType().Name);
             String sql = SqlBuilder.GetSelectSql(tableName, "id = " + id);
             return Find<T>(sql);
         }
+        /// <summary>
+        /// 根据Sql 语句查找一个对像
+        /// </summary>
+        /// <typeparam name="T">要查找一个对像</typeparam>
+        /// <param name="sql">Sql 语句</param>
+        /// <returns></returns>
         public override T Find<T>(string sql)
         {
             DataTable dt = ExcuteDataTable(sql);
             if (dt.Rows.Count <= 0)
             {
-                return (T)Null();
+                return null;
             }
             Type type = typeof(T);
             DataRow row = dt.Rows[0];
@@ -483,14 +524,14 @@ namespace SqlDao
             T entity = new T();
             foreach (PropertyInfo p in pArray)
             {
-                if (row.Table.Columns.Contains(StringHelper.camelCaseToDBnameing(p.Name)))
+                if (row.Table.Columns.Contains(StringHelper.CamelCaseToDBnameing(p.Name)))
                 {
-                    if (row[StringHelper.camelCaseToDBnameing(p.Name)] is DBNull)
+                    if (row[StringHelper.CamelCaseToDBnameing(p.Name)] is DBNull)
                     {
                         p.SetValue(entity, null, null);
                         continue;
                     }
-                    p.SetValue(entity, row[StringHelper.camelCaseToDBnameing(p.Name)], null);
+                    p.SetValue(entity, row[StringHelper.CamelCaseToDBnameing(p.Name)], null);
                 }
             }
             return entity;

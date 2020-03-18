@@ -4,7 +4,10 @@ using System.Text;
 
 namespace SqlDao
 {
-  public  class MysqlConnectionStringBuilder :SqlBuilder
+    /// <summary>
+    /// Mysql Connection String Builder
+    /// </summary>
+    public class MysqlConnectionStringBuilder :SqlBuilder
     {
         /// <summary>
         /// 构建连接字符串

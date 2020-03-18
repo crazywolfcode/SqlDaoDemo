@@ -6,14 +6,17 @@ using System.Text;
 
 namespace SqlDao
 {
-   public class DatatableHelper
+    /// <summary>
+    /// Datatable Helper
+    /// </summary>
+    public class DatatableHelper
     {
-        
+
         /// <summary>  
         /// DataTable转化为List集合  
         /// </summary>  
         /// <typeparam name="T">实体对象</typeparam>  
-        /// <param name="dt">datatable表</param>  
+        /// <param name="dataTable">datatable表</param>  
         /// <returns>返回list集合</returns>  
         public static List<T> DataTableToList<T>(DataTable dataTable)
         {
@@ -53,7 +56,6 @@ namespace SqlDao
         /// </summary>  
         /// <typeparam name="T">实体类型</typeparam>  
         /// <param name="list">传入集合</param>  
-        /// <param name="isStoreDB">是否存入数据库DateTime字段，date时间范围没事，取出展示不用设置TRUE</param>  
         /// <returns>返回datatable结果</returns>
         public static DataTable ListToDataTable<T>(List<T> list)
         {
@@ -92,8 +94,8 @@ namespace SqlDao
         /// 提取DataTable某一行转为指定对象
         /// </summary>  
         /// <typeparam name="T">实体</typeparam>  
-        /// <param name="dt">传入的表格</param>  
-        /// <param name="rowindex">table行索引，默认为第一行</param>  
+        /// <param name="dataTable">传入的表格</param>  
+        /// <param name="rowIndex">table行索引，默认为第一行</param>  
         /// <returns>返回实体对象</returns> 
         public static T DataTableToEntity<T>(DataTable dataTable, int rowIndex=0)
         {

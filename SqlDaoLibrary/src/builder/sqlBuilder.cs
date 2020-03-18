@@ -5,32 +5,43 @@ using System.Text;
 
 namespace SqlDao
 {
+    /// <summary>
+    /// sql 语句 构建器
+    /// </summary>
     public class SqlBuilder
     {
+        /// <summary>
+        /// , 号
+        /// </summary>
         public static readonly char splitChar = '`';
+        /// <summary>
+        /// '
+        /// </summary>
         public static readonly string valueSplitChar = "'";
-        public static readonly string notSoftDeleteWhere = splitChar + softDeleteColumnName + splitChar + "=" + valueSplitChar + nomalStatusTag + valueSplitChar;
-        public static readonly string selectSqlTemplate = "SELECT {0} FROM {1} WHERE {2} ;";
-        public static readonly string groupByTemplate = " GROUP BY {0} ";
-        public static readonly string orderByTemplate = " ORDER BY {0} ";
-        public static readonly string havingTemplate = " HAVING  {0} ";
-        public static readonly string LimitTemplate = " LIMIT  {0} ";
-        public static readonly string offsetTemplate = " OFFSET  {0} ";
+        private static readonly string notSoftDeleteWhere = splitChar + softDeleteColumnName + splitChar + "=" + valueSplitChar + nomalStatusTag + valueSplitChar;
+        private static readonly string selectSqlTemplate = "SELECT {0} FROM {1} WHERE {2} ;";
+        private static readonly string groupByTemplate = " GROUP BY {0} ";
+        private static readonly string orderByTemplate = " ORDER BY {0} ";
+        private static readonly string havingTemplate = " HAVING  {0} ";
+        private static readonly string LimitTemplate = " LIMIT  {0} ";
+        private static readonly string offsetTemplate = " OFFSET  {0} ";
 
-        public static readonly string insertSqlTemplate = "INSERT INTO {0} ({1}) VALUES ({2});";
-        public static readonly string updateSqlTemplate = "UPDATE {0} SET {1} WHERE {2};";
-        public static readonly string deleteSqlTemplate = "DELETE FROM {0} WHERE {1};";
+        private static readonly string insertSqlTemplate = "INSERT INTO {0} ({1}) VALUES ({2});";
+        private static readonly string updateSqlTemplate = "UPDATE {0} SET {1} WHERE {2};";
+        private static readonly string deleteSqlTemplate = "DELETE FROM {0} WHERE {1};";
 
         //软删除的数据字段名
-        public static readonly string softDeleteColumnName = "is_delete";
+        private static readonly string softDeleteColumnName = "is_delete";
         //软删除的实体类属性名
-        public static readonly string softDeletePropertyName = "IsDelete";
-        public static readonly string deleteStatusTag = "1"; //删除状态标识
-        public static readonly string nomalStatusTag = "0";//正常状态标识
+        private static readonly string softDeletePropertyName = "IsDelete";
+        private static readonly string deleteStatusTag = "1"; //删除状态标识
+        private static readonly string nomalStatusTag = "0";//正常状态标识
         //软删除的条件
-        public static readonly string softDeleteWhere = splitChar + softDeleteColumnName + splitChar + "=" + valueSplitChar + deleteStatusTag + valueSplitChar;
-        public static readonly string softDeleteSet = splitChar + softDeleteColumnName + splitChar + "=" + valueSplitChar + deleteStatusTag + valueSplitChar;
-
+        private static readonly string softDeleteWhere = splitChar + softDeleteColumnName + splitChar + "=" + valueSplitChar + deleteStatusTag + valueSplitChar;
+        private static readonly string softDeleteSet = splitChar + softDeleteColumnName + splitChar + "=" + valueSplitChar + deleteStatusTag + valueSplitChar;
+        /// <summary>
+        /// 错误提示
+        /// </summary>
         public static readonly string buildSqlErrorMessage = "无法获取id或Id的属性名或值，无法对生成SQL的Where条件！";
 
         /// <summary>
@@ -42,7 +53,7 @@ namespace SqlDao
         public static string GetTableName<T>(T obj)
         {
             Type type = typeof(T);
-            string name = StringHelper.camelCaseToDBnameing(type.Name);
+            string name = StringHelper.CamelCaseToDBnameing(type.Name);
             return name;
         }
 
@@ -100,12 +111,19 @@ namespace SqlDao
             }
             return sql;
         }
+
         /// <summary>
-        ///获得查询SQL语句 去除软删除的条件
+        /// 获得查询SQL语句 去除软删除的条件
         /// </summary>
-        /// <typeparam name="T">类型</typeparam>
-        /// <param name="obj">类型的对像</param>
-        /// <returns>SQL语句</returns>
+        /// <param name="tableName">表名</param>
+        /// <param name="fields">字段</param>
+        /// <param name="conditon">条件</param>
+        /// <param name="groupBy">分组</param>
+        /// <param name="having">分组条件</param>
+        /// <param name="orderBy">排序</param>
+        /// <param name="limit"></param>
+        /// <param name="offset"></param>
+        /// <returns></returns>
         public static string GetSelectSql(string tableName, string fields = null, string conditon = null, string groupBy = null, string having = null, string orderBy = null, int limit = 0, int offset = -1)
         {
             string sql = string.Empty;
@@ -174,11 +192,11 @@ namespace SqlDao
                 }
                 if (columNames.Length == 0)
                 {
-                    columNames += splitChar + StringHelper.camelCaseToDBnameing(property.Name) + splitChar;
+                    columNames += splitChar + StringHelper.CamelCaseToDBnameing(property.Name) + splitChar;
                 }
                 else
                 {
-                    columNames += "," + splitChar + StringHelper.camelCaseToDBnameing(property.Name) + splitChar;
+                    columNames += "," + splitChar + StringHelper.CamelCaseToDBnameing(property.Name) + splitChar;
                 }
                 if (values.Length == 0)
                 {
@@ -244,11 +262,11 @@ namespace SqlDao
                 {
                     if (set.Length == 0)
                     {
-                        set = splitChar + StringHelper.camelCaseToDBnameing(p.Name) + splitChar + " = " + valueSplitChar + tempObj.ToString() + valueSplitChar;
+                        set = splitChar + StringHelper.CamelCaseToDBnameing(p.Name) + splitChar + " = " + valueSplitChar + tempObj.ToString() + valueSplitChar;
                     }
                     else
                     {
-                        set += "," + splitChar + StringHelper.camelCaseToDBnameing(p.Name) + splitChar + " = " + valueSplitChar + tempObj.ToString() + valueSplitChar;
+                        set += "," + splitChar + StringHelper.CamelCaseToDBnameing(p.Name) + splitChar + " = " + valueSplitChar + tempObj.ToString() + valueSplitChar;
                     }
                 }
 
