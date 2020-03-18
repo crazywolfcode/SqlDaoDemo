@@ -127,13 +127,13 @@ namespace SqlDao
             return result;
         }
 
-        public override List<DbSchema> GetAllTableSchema(string dbname)
+        public override List<T> GetAllTableSchema<T>(string dbname)
         {
-            List<DbSchema> dss = new List<DbSchema>();
+            List<T> dss = new List<T>();
             string sql = $"SELECT TABLE_NAME as tableName,TABLE_COMMENT as tableComment,CREATE_TIME as createTime,UPDATE_TIME as updateTime ,TABLE_ROWS as tableRows,DATA_LENGTH as dataLength   from information_schema.tables where table_schema='{dbname}'  and table_type='base table';";
             DataTable dt = this.ExcuteDataTable(sql, null);
             string json = JsonHelper.ObjectToJson(dt);
-            dss = (List<DbSchema>)JsonHelper.JsonToObject(json, typeof(List<DbSchema>));
+            dss = (List<T>)JsonHelper.JsonToObject(json, typeof(List<T>));
             return dss;
         }
         /// <summary>
@@ -141,7 +141,7 @@ namespace SqlDao
         /// </summary>
         /// <param name="dbname"></param>
         /// <returns></returns>
-        public List<DbSchema> getAllTableSchema8(string dbname)
+        public List<DbSchema> GetAllTableSchema8(string dbname)
         {
             List<DbSchema> dss = new List<DbSchema>();
             string sql = $"SELECT TABLE_NAME as tableName,TABLE_COMMENT as tableComment,CREATE_TIME as createTime,UPDATE_TIME as updateTime ,TABLE_ROWS as tableRows,DATA_LENGTH as dataLength   from information_schema.tables where table_schema='{dbname}'  and (table_type='base table' or table_type='BASE TABLE');";
@@ -179,17 +179,18 @@ namespace SqlDao
         /// </summary>
         /// <param name="tableName"></param>
         /// <returns></returns>
-        public override List<TableScema> GetTableSchema(string tableName)
+        public override List<T> GetTableSchema<T>(string tableName)
+             
         {
             if (string.IsNullOrEmpty(tableName))
             {
                 return null;
             }
-            List<TableScema> ts = null;
+            List<T> ts = null;
             string sql = string.Format(" desc {0};", tableName);
             DataTable dt = this.ExcuteDataTable(sql, null);
             String json = JsonHelper.ObjectToJson(dt);
-            ts = (List<TableScema>)JsonHelper.JsonToObject(json, typeof(List<MysqlTabeSchema>));
+            ts = (List<T>)JsonHelper.JsonToObject(json, typeof(List<T>));
             return ts;
         }
 

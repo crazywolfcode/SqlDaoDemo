@@ -79,7 +79,7 @@ namespace SqlDao
         public abstract string[] GetAllTableName(string dbname);
 
 
-        public abstract List<DbSchema> GetAllTableSchema(string dbname);
+        public abstract List<T> GetAllTableSchema<T>(string dbname);
 
         /// <summary>
         /// get the schema of table
@@ -144,7 +144,7 @@ namespace SqlDao
         public abstract int TransactionExecute(string[] sqls);
 
 
-        public abstract List<TableScema> GetTableSchema(string tableName);
+        public abstract List<T> GetTableSchema<T>(string tableName) where T : TableScema;
 
         public object Null()
         {

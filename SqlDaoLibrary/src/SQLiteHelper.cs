@@ -127,12 +127,12 @@ namespace SqlDao
             return this.ExcuteDataTable(sql, null);
         }
 
-        public override List<DbSchema> GetAllTableSchema(String dbname = null)
+        public override List<T> GetAllTableSchema<T>(String dbname = null)
         {
-            List<DbSchema> dss = new List<DbSchema>();
+            List<T> dss = new List<T>();
             DataTable dt = this.ExcuteDataTable(getTableSchemaSql, null);
             string json = JsonHelper.ObjectToJson(dt);
-            dss = (List<DbSchema>)JsonHelper.JsonToObject(json, typeof(List<DbSchema>));
+            dss = (List<T>)JsonHelper.JsonToObject(json, typeof(List<T>));
             return dss;
         }
 
@@ -151,17 +151,17 @@ namespace SqlDao
         /// </summary>
         /// <param name="tableName"></param>
         /// <returns></returns>
-        public override List<TableScema> GetTableSchema(string tableName)
+        public override List<T> GetTableSchema<T>(string tableName)
         {
             if (string.IsNullOrEmpty(tableName))
             {
                 return null;
             }
-            List<TableScema> ts = null;
+            List<T> ts = null;
             string sql = string.Format(" PRAGMA table_info({0});", tableName);
             DataTable dt = this.ExcuteDataTable(sql, null);
             String json = JsonHelper.ObjectToJson(dt);
-            ts = (List<TableScema>)JsonHelper.JsonToObject(json, typeof(List<SqliteTableSchema>));
+            ts = (List<T>)JsonHelper.JsonToObject(json, typeof(List<T>));
             return ts;
         }
         /// <summary>

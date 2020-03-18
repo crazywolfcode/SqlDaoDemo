@@ -2,24 +2,24 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>1.0.1</Version>
+    <Version>1.1.1</Version>
     <RootNamespace>SqlDao</RootNamespace>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>SqlDao</PackageId>
     <Authors>陈龙飞</Authors>
     <Company>软友科技</Company>
-    <Description>C# 操作数据库的DAO类库,CURD 操作不需要拼写SQl语句，节约时间，提高开发效率，亲测  Mysql 、SQLite 好用。</Description>
+    <Description>C# 操作数据库的DAO类库,CURD 操作不需要拼写SQl语句，支持事务，节约时间，提高开发效率，亲测  Mysql 、SQLite 好用。</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Copyright>© clf. All rights reserved.</Copyright>
-    <AssemblyVersion>1.0.0.1</AssemblyVersion>
+    <AssemblyVersion>1.0.0.2</AssemblyVersion>
     <PackageTags>Mysql Dao ORM</PackageTags>
     <PackageProjectUrl>https://github.com/crazywolfcode/SqlDaoDemo</PackageProjectUrl>
     <RepositoryUrl>https://github.com/crazywolfcode/SqlDaoDemo</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
     <PackageReleaseNotes>优化代码，完善功能。</PackageReleaseNotes>
     <PackageIconUrl>https://raw.githubusercontent.com/crazywolfcode/SqlDaoDemo/master/SqlDaoDemo/logo.png</PackageIconUrl>
-    <FileVersion>1.0.0.1</FileVersion>
+    <FileVersion>1.0.0.2</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
