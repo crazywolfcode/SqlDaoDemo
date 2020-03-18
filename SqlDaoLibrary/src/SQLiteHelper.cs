@@ -132,7 +132,7 @@ namespace SqlDao
         public override List<T> GetAllTableSchema<T>(String dbname = null)
         {
             List<T> dss = new List<T>();
-            DataTable dt = this.ExcuteDataTable(getTableSchemaSql, null);
+            DataTable dt = this.ExcuteDataTable(getTableSchemaSql);
             string json = JsonHelper.ObjectToJson(dt);
             dss = (List<T>)JsonHelper.JsonToObject(json, typeof(List<T>));
             return dss;
@@ -182,27 +182,6 @@ namespace SqlDao
             return result;
         }
 
-        /// <summary>  
-        /// 获取多行  
-        /// </summary>  
-        /// <param name="sql">执行sql</param>  
-        /// <param name="param">sql参数</param>  
-        /// <returns>多行结果</returns>  
-        public DataRow[] getRows(string sql, Dictionary<string, object> param = null)
-        {
-            List<SQLiteParameter> sqlite_param = new List<SQLiteParameter>();
-
-            if (param != null)
-            {
-                foreach (KeyValuePair<string, object> row in param)
-                {
-                    sqlite_param.Add(new SQLiteParameter(row.Key, row.Value.ToString()));
-                }
-            }
-            DataTable dt = this.ExcuteDataTable(sql, sqlite_param.ToArray());
-            return dt.Select();
-        }
-
         public override bool ExistTable(string db, string tableName)
         {
             if (string.IsNullOrEmpty(tableName))
@@ -221,16 +200,11 @@ namespace SqlDao
         /// <param name="sql">要执行的sql语句</param>  
         /// <param name="parameters">所需参数</param>  
         /// <returns>结果DataTable</returns>  
-        public DataTable ExcuteDataTable(string sql, SQLiteParameter[] parameters = null)
+        public override DataTable ExcuteDataTable(string sql)
         {
             DataTable dt = new DataTable();
             using (SQLiteCommand command = Connection.CreateCommand())
-            {
-                command.CommandText = sql;
-                if (parameters != null)
-                {
-                    command.Parameters.AddRange(parameters);
-                }
+            {               
                 SQLiteDataAdapter adapter = new SQLiteDataAdapter(command);
                 adapter.Fill(dt);
                 return dt;
@@ -471,15 +445,6 @@ namespace SqlDao
         public List<MysqlTableColumnSchema> GetTableColumnSchema(string dbname, string tablename)
         {
             throw new NotImplementedException("not suport db type");
-        }
-
-        public override DataTable ExcuteDataTable(string sql, MySqlParameter[] parameters)
-        {
-            return ExcuteDataTable(sql);
-        }
-        public override DataTable ExcuteDataTable(string sql)
-        {
-            return ExcuteDataTable(sql);
         }
 
         public override bool IsConnecting()

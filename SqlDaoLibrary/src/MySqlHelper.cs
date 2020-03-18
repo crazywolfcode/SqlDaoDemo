@@ -265,7 +265,7 @@ namespace SqlDao
         /// <param name="sql">要执行的sql语句</param>  
         /// <param name="parameters">所需参数</param>  
         /// <returns>结果DataTable</returns>  
-        public override DataTable ExcuteDataTable(string sql, MySqlParameter[] parameters)
+        public DataTable ExcuteDataTable(string sql, MySqlParameter[] parameters)
         {
             DataTable dt = new DataTable();
             using (MySqlCommand command = new MySqlCommand(sql, Connection))

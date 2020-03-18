@@ -45,9 +45,6 @@ namespace SqlDao
         /// <returns></returns>
         public abstract bool CheckExist<T>(T obj);
 
-
-
-        public abstract DataTable ExcuteDataTable(string sql, MySqlParameter[] parameters);
         public abstract DataTable ExcuteDataTable(string sql);
         /// <summary>
         /// 检查连接能否打开
