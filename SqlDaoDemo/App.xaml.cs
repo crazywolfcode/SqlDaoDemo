@@ -16,14 +16,12 @@ namespace SqlDaoDemo
         private static MySqlHelper mySqlHelper;
         public static MySqlHelper MainSqlHelper {
             get
-            {
-              
+            {              
                 if (mySqlHelper == null)
                 {
                     String connstr = ConfigurationManager.ConnectionStrings["mysqlConn"].ConnectionString.ToString();
                     mySqlHelper = new MySqlHelper(connstr);
                 }
-
                 return mySqlHelper;
             }
         }
